@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Detail;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class DetailFactory extends Factory
 {
@@ -23,6 +23,7 @@ class DetailFactory extends Factory
     public function definition()
     {
         return [
+            'user_id' => User::factory(),
             'phone' => $this->faker->phoneNumber,
             'address' => $this->faker->address,
             'city' => $this->faker->city,

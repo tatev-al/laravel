@@ -15,9 +15,15 @@ class Detail extends Model
      * @var array
      */
     protected $fillable = [
+        'user_id',
         'phone',
         'address',
         'city',
         'country',
     ];
+
+    public function user() : \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Detail::class);
+    }
 }

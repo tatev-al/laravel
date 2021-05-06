@@ -14,8 +14,8 @@ class CreateUserProfessionsTable extends Migration
     public function up()
     {
         Schema::create('user_professions', function (Blueprint $table) {
-            $table->foreignId('user_id');
-            $table->foreignId('profession_id');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('profession_id')->constrained();
         });
     }
 

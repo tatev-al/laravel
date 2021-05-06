@@ -18,7 +18,7 @@
                     <div class="card-header">{{ __('Profile') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('profile.update', ['form' => '1']) }}">
+                        <form method="POST" action="{{ route('profile.update')}}">
                             @csrf
 
                             @method('POST')
@@ -75,7 +75,7 @@
                     <div class="card-header">{{ __('Contact Information') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('profile.update', ['form' => '2']) }}">
+                        <form method="POST" action="{{ route('detail.update') }}">
                             @csrf
 
                             @method('POST')
