@@ -37,6 +37,25 @@ class ProfileController extends Controller
             'password' => $request->password ? bcrypt($request->password) : Auth::user()->password
         ]);
 
+/*        Detail::where('id', Auth::id())->update([
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'city' => $request->city,
+            'country' => $request->country
+        ]);*/
+
+        return back()->with('success', 'Profile has been updated successfully!');
+    }
+
+    public function updateContact(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required|string|max:191',
+            'address' => 'required|string|max:191',
+            'city' => 'required|string|max:191',
+            'country' => 'required|string|max:191'
+        ]);
+
         Detail::where('id', Auth::id())->update([
             'phone' => $request->phone,
             'address' => $request->address,
@@ -44,6 +63,6 @@ class ProfileController extends Controller
             'country' => $request->country
         ]);
 
-        return back()->with('success', 'Profile has been updated successfully!');
+        return back()->with('successContact', 'Contact information has been updated successfully!');
     }
 }
