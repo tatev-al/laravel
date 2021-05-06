@@ -24,5 +24,4 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-Route::post('/profile', [ProfileController::class, 'updateContact'])->name('profile.updateContact');
+Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');

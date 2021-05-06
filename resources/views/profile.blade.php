@@ -18,7 +18,7 @@
                     <div class="card-header">{{ __('Profile') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('profile.update') }}">
+                        <form method="POST" action="{{ route('profile.update', ['form' => '1']) }}">
                             @csrf
 
                             @method('POST')
@@ -41,6 +41,14 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="password" type="text" class="form-control @error('password') is-invalid @enderror" name="password" required autofocus>
                                 </div>
                             </div>
 
@@ -67,7 +75,7 @@
                     <div class="card-header">{{ __('Contact Information') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('profile.updateContact') }}">
+                        <form method="POST" action="{{ route('profile.update', ['form' => '2']) }}">
                             @csrf
 
                             @method('POST')
