@@ -4,23 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Profession extends Model
+class UserProfession extends Model
 {
     use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name'
+        'user_id',
+        'profession_id'
     ];
-
-    public function profession() : BelongsToMany
-    {
-        return $this->belongsToMany(User::class);
-    }
 }

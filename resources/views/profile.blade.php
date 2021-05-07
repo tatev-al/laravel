@@ -11,6 +11,11 @@
             {{ session('successContact') }}
         </span>
     @endif
+    @if (session('successProfession'))
+        <span class="alert alert-success d-flex justify-content-center p-2">
+            {{ session('successProfession') }}
+        </span>
+    @endif
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -26,7 +31,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ Auth::user()->name }}" required autofocus>
+                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user['name'] }}" required autofocus>
                                 </div>
                             </div>
 
@@ -34,7 +39,7 @@
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('New E-Mail Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ Auth::user()->email }}" required autofocus>
+                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user['email'] }}" required autofocus>
 
                                     @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -83,7 +88,11 @@
                                 <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="" required autofocus>
+                                    @if($user['detail'] === null)
+                                        <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="" required autofocus>
+                                    @else
+                                        <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ $user['detail']['phone'] }}" required autofocus>
+                                    @endif
                                 </div>
                             </div>
 
@@ -91,7 +100,11 @@
                                 <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="" required autofocus>
+                                    @if($user['detail'] === null)
+                                        <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="" required autofocus>
+                                    @else
+                                        <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ $user['detail']['address'] }}" required autofocus>
+                                    @endif
                                 </div>
                             </div>
 
@@ -99,7 +112,11 @@
                                 <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('City') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="" required autofocus>
+                                    @if($user['detail'] === null)
+                                        <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="" required autofocus>
+                                    @else
+                                        <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ $user['detail']['city'] }}" required autofocus>
+                                    @endif
                                 </div>
                             </div>
 
@@ -107,9 +124,51 @@
                                 <label for="country" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="" required autofocus>
+                                    @if($user['detail'] === null)
+                                        <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="" required autofocus>
+                                    @else
+                                        <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ $user['detail']['country'] }}" required autofocus>
+                                    @endif
                                 </div>
                             </div>
+
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+                            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+                            <div class="form-group row">
+                                <label for="user_profession" class="col-md-4 col-form-label text-md-right">{{ __('Profession(s)') }}</label>
+
+                                <div class="col-md-6">
+                                    <select id="user_profession" name="user_profession" multiple="multiple">
+                                        @foreach($profession as $d)
+                                            <option value="{{ $d['id'] }}">{{ $d['name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <script>
+                                $(document).ready(function(){
+                                    $('#user_profession').select2({
+                                    placeholder: "Choose tags...",
+                                    ajax: {
+                                        url: "{{ route('profession.update') }}",
+                                        dataType: 'json',
+                                        data: function (params) {
+                                            return {
+                                                q: $.trim(params.term)
+                                            };
+                                        },
+                                        processResults: function (data) {
+                                            return {
+                                                results: data
+                                            };
+                                        },
+                                        cache: true
+                                    }
+                                })
+                                })
+
+                            </script>
+
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
