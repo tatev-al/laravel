@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\UserProfessionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -29,5 +28,4 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 Route::post('/profile/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::post('/profile/detail', [DetailController::class, 'update'])->name('detail.update');
-Route::post('/profile/profession', [UserProfessionController::class, 'update'])->name('profession.update');
 

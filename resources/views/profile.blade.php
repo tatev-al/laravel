@@ -132,43 +132,17 @@
                                 </div>
                             </div>
 
-                            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-                            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
                             <div class="form-group row">
                                 <label for="user_profession" class="col-md-4 col-form-label text-md-right">{{ __('Profession(s)') }}</label>
 
                                 <div class="col-md-6">
-                                    <select id="user_profession" name="user_profession" multiple="multiple">
+                                    <select class="form-control" id="user_profession" name="profession[]" multiple="multiple">
                                         @foreach($profession as $d)
                                             <option value="{{ $d['id'] }}">{{ $d['name'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            <script>
-                                $(document).ready(function(){
-                                    $('#user_profession').select2({
-                                    placeholder: "Choose tags...",
-                                    ajax: {
-                                        url: "{{ route('profession.update') }}",
-                                        dataType: 'json',
-                                        data: function (params) {
-                                            return {
-                                                q: $.trim(params.term)
-                                            };
-                                        },
-                                        processResults: function (data) {
-                                            return {
-                                                results: data
-                                            };
-                                        },
-                                        cache: true
-                                    }
-                                })
-                                })
-
-                            </script>
-
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">

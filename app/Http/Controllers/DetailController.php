@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Detail;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 
 class DetailController extends Controller
 {
@@ -34,6 +34,8 @@ class DetailController extends Controller
                 'country' => $request->country
             ]
         );
+        $user = User::find(Auth::id());
+        $user->profession()->sync($request->toArray()['profession']);
         return back()->with('successContact', 'Contact information has been updated successfully!');
     }
 }
