@@ -137,13 +137,20 @@
 
                                 <div class="col-md-6">
                                     <select class="form-control" id="user_profession" name="profession[]" multiple="multiple">
-                                        @foreach($profession as $d)
-                                            <option value="{{ $d['id'] }}">{{ $d['name'] }}</option>
+                                        @foreach($profession as $pr)
+                                            @foreach($selected_professions as $sel_pr)
+                                                @if($sel_pr['id'] == $pr['id'])
+                                                    <option value="{{ $sel_pr['id'] }}" selected>{{ $sel_pr['name'] }}</option>
+                                                    @break
+                                                @endif
+                                            @endforeach
+                                                @if($sel_pr['id'] != $pr['id'])
+                                                    <option value="{{ $pr['id'] }}" >{{ $pr['name'] }}</option>
+                                                @endif
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <button type="submit" class="btn btn-primary">

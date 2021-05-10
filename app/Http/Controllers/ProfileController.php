@@ -14,8 +14,12 @@ class ProfileController extends Controller
     public function index()
     {
         $profession = Profession::select('id', 'name')->get()->toArray();
+        $selected_professions = User::with(['profession'])->find(Auth::id())->toArray()['profession'];
         $user = User::with(['detail'])->find(Auth::id())->toArray();
-        return view('profile')->with('user', $user)->with('profession', $profession);
+        return view('profile')
+            ->with('user', $user)
+            ->with('profession', $profession)
+            ->with('selected_professions', $selected_professions);
     }
 
     public function update(Request $request)
