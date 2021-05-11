@@ -26,6 +26,6 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-Route::post('/profile/profile', [ProfileController::class, 'update'])->name('profile.update');
-Route::post('/profile/detail', [DetailController::class, 'update'])->name('detail.update');
+Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::put('/profile/detail', [DetailController::class, 'update'])->name('profile.detail.update');
 

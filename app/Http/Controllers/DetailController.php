@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Detail;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,6 +14,8 @@ class DetailController extends Controller
 
     public function update(Request $request)
     {
+        $user = auth()->user();
+
         $request->validate([
             'phone' => 'required|string|max:191',
             'address' => 'required|string|max:191',
@@ -23,9 +23,9 @@ class DetailController extends Controller
             'country' => 'required|string|max:191'
         ]);
 
-        Detail::updateOrCreate(
+        $user->detail->updateOrCreate(
             [
-                'user_id' => Auth::id()
+                'user_id' => $user->id
             ],
             [
                 'phone' => $request->phone,
@@ -34,8 +34,8 @@ class DetailController extends Controller
                 'country' => $request->country
             ]
         );
-        $user = User::find(Auth::id());
-        $user->profession()->sync($request->toArray()['profession']);
+
+        $user->profession()->sync($request->profession);
         return back()->with('successContact', 'Contact information has been updated successfully!');
     }
 }
