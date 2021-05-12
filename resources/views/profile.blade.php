@@ -25,7 +25,11 @@
 
                     <div class="card-body">
                         <div class="row-cols-lg-5">
+                            @if($user->avatar === null)
+                                <img src="{{ asset('/storage/images/avatars/avatar.jpg') }}" class="img-fluid" alt="avatar">
+                            @else
                                 <img src="{{ asset('/storage/'. $user->avatar->path ) }}" class="img-fluid" alt="avatar">
+                            @endif
                             <form method="POST" action="{{ route('profile.upload')}}" enctype="multipart/form-data">
                                 @csrf
 
@@ -35,7 +39,9 @@
                                     <label class="custom-file-label">Choose file</label>
                                     <button class="btn btn-default" type="submit">Submit</button>
                                 </div>
+
                             </form>
+
                         </div>
 
                         <form method="POST" action="{{ route('profile.update')}}">

@@ -26,7 +26,10 @@ class AvatarController extends Controller
             'avatar' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048',
         ]);
 
-        Storage::delete($user->avatar->path);
+        if($user->avatar)
+        {
+            Storage::delete($user->avatar->path);
+        }
 
         Avatar::updateOrCreate(
             [
