@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+    @if (session('successAvatar'))
+        <span class="alert alert-success d-flex justify-content-center p-2">
+            {{ session('successAvatar') }}
+        </span>
+    @endif
     @if (session('success'))
         <span class="alert alert-success d-flex justify-content-center p-2">
             {{ session('success') }}
@@ -11,6 +16,7 @@
             {{ session('successContact') }}
         </span>
     @endif
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -18,6 +24,20 @@
                     <div class="card-header">{{ __('Profile') }}</div>
 
                     <div class="card-body">
+                        <div class="row-cols-lg-5">
+                                <img src="{{ asset('/storage/'. $user->avatar->path ) }}" class="img-fluid" alt="avatar">
+                            <form method="POST" action="{{ route('profile.upload')}}" enctype="multipart/form-data">
+                                @csrf
+
+                                @method('PUT')
+                                <div class="custom-file mt-1">
+                                    <input id="avatar" type="file" class="custom-file-input" name="avatar">
+                                    <label class="custom-file-label">Choose file</label>
+                                    <button class="btn btn-default" type="submit">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+
                         <form method="POST" action="{{ route('profile.update')}}">
                             @csrf
 
