@@ -16,15 +16,15 @@ class ProfileController extends Controller
         $user = auth()->user()->load(['detail', 'profession', 'avatar']);
         if(!$user->avatar)
         {
-            $default = 'images/avatars/avatar.jpg';
+            $avatarPath = 'images/avatars/avatar.jpg';
         }
         else
         {
-            $default = $user->avatar->path;
+            $avatarPath = $user->avatar->path;
         }
         return view('profile')
             ->with('user', $user)
-            ->with('avatarPath', $default)
+            ->with('avatarPath', $avatarPath)
             ->with('professions', $professions)
             ->with('selected_professions', $user->profession);
     }
