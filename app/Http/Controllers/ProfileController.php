@@ -14,8 +14,17 @@ class ProfileController extends Controller
     {
         $professions = Profession::select('id', 'name')->get();
         $user = auth()->user()->load(['detail', 'profession', 'avatar']);
+        if(!$user->avatar)
+        {
+            $default = 'images/avatars/avatar.jpg';
+        }
+        else
+        {
+            $default = $user->avatar->path;
+        }
         return view('profile')
             ->with('user', $user)
+            ->with('avatarPath', $default)
             ->with('professions', $professions)
             ->with('selected_professions', $user->profession);
     }

@@ -25,11 +25,7 @@
 
                     <div class="card-body">
                         <div class="row-cols-lg-5">
-                            @if($user->avatar === null)
-                                <img src="{{ asset('/storage/images/avatars/avatar.jpg') }}" class="img-fluid" alt="avatar">
-                            @else
-                                <img src="{{ asset('/storage/'. $user->avatar->path ) }}" class="img-fluid" alt="avatar">
-                            @endif
+                                <img src="{{ asset('/storage/'. $avatarPath ) }}" class="img-fluid" alt="avatar">
                             <form method="POST" action="{{ route('profile.upload')}}" enctype="multipart/form-data">
                                 @csrf
 
