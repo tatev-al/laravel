@@ -36,6 +36,12 @@
                                     <button class="btn btn-default" type="submit">Submit</button>
                                 </div>
 
+                                @error('avatar')
+                                <span class="invalid-feedback" role="alert">
+                                     <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+
                             </form>
 
                         </div>

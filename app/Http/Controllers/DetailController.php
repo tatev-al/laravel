@@ -23,7 +23,7 @@ class DetailController extends Controller
             'country' => 'required|string|max:191'
         ]);
 
-        $user->detail->updateOrCreate(
+        $user->detail()->updateOrCreate(
             [
                 'user_id' => $user->id
             ],

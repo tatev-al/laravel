@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             DetailSeeder::class,
             UserSeeder::class,
             ProfessionSeeder::class,
+            PostSeeder::class,
         ]);
     }
 }

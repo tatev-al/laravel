@@ -14,14 +14,12 @@ class ProfileController extends Controller
     {
         $professions = Profession::select('id', 'name')->get();
         $user = auth()->user()->load(['detail', 'profession', 'avatar']);
-        if(!$user->avatar)
-        {
+        if($user->avatar()->exists()) {
+            $avatarPath = $user->avatar->path;
+        } else {
             $avatarPath = 'images/avatars/avatar.jpg';
         }
-        else
-        {
-            $avatarPath = $user->avatar->path;
-        }
+
         return view('profile')
             ->with('user', $user)
             ->with('avatarPath', $avatarPath)

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Avatar extends Model
+class Post extends Model
 {
     use HasFactory;
     /**
@@ -16,10 +16,9 @@ class Avatar extends Model
      */
     protected $fillable = [
         'user_id',
-        'original_name',
-        'path',
-        'title',
-        'description',
+        'image_original_name',
+        'image_path',
+        'processed',
     ];
 
     public function user() : BelongsTo

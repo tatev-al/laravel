@@ -9,25 +9,16 @@ use Illuminate\Support\Facades\Storage;
 
 class AvatarController extends Controller
 {
-    public function index()
-    {
-        return view('profile')->with('detailF', Auth::user());
-    }
-
     public function upload(Request $request)
     {
-        $user = auth()->user();
-        if(!$request->file('avatar'))
-        {
-            return back()->with('successAvatar', 'Please choose a picture first!');
-        }
-        $path = $request->file('avatar')->store('images/avatars');
         $request->validate([
             'avatar' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048',
         ]);
 
-        if($user->avatar)
-        {
+        $user = auth()->user();
+        $path = $request->file('avatar')->store('images/avatars');
+
+        if($user->avatar) {
             Storage::delete($user->avatar->path);
         }
 
