@@ -48,7 +48,7 @@ class User extends Authenticatable
         return $this->hasOne(Detail::class);
     }
 
-    public function profession() : BelongsToMany
+    public function user_professions() : BelongsToMany
     {
         return $this->belongsToMany(Profession::class,'user_professions');
     }
@@ -58,7 +58,7 @@ class User extends Authenticatable
         return $this->hasOne(Avatar::class);
     }
 
-    public function post() : HasMany
+    public function posts() : HasMany
     {
         return $this->hasMany(Post::class);
     }

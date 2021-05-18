@@ -9,11 +9,16 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+//        $this->middleware('admin');
+    }
 
     public function index(Request $request)
     {
         $professions = Profession::select('id', 'name')->get();
-        $user = auth()->user()->load(['detail', 'profession', 'avatar']);
+        $user = auth()->user()->load(['detail', 'user_professions', 'avatar']);
         if($user->avatar()->exists()) {
             $avatarPath = $user->avatar->path;
         } else {
@@ -24,7 +29,7 @@ class ProfileController extends Controller
             ->with('user', $user)
             ->with('avatarPath', $avatarPath)
             ->with('professions', $professions)
-            ->with('selected_professions', $user->profession);
+            ->with('selected_professions', $user->user_professions);
     }
 
     public function update(Request $request)

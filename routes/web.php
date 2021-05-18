@@ -3,7 +3,7 @@
 use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FeedController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DetailController;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +25,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/feed', [FeedController::class, 'index'])->name('feed');
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -33,8 +33,13 @@ Route::put('/profile/detail', [DetailController::class, 'update'])->name('profil
 Route::put('/profile/upload', [AvatarController::class, 'upload'])->name('profile.upload');
 
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
-Route::post('/posts/create', function (){
-    return view('createPost');
-});
 
+Route::get('/posts/create', [PostController::class, 'transfer'])->name('posts.transfer');
+Route::post('/posts/create', [PostController::class, 'create'])->name('posts.create');
+
+Route::get('/posts/{postId}/edit', [PostController::class, 'edit'])->name('posts.edit');
+Route::post('/posts/update/{postId}', [PostController::class, 'update'])->name('posts.update');
+
+Route::get('/posts/{postId}', [PostController::class, 'delete'])->name('posts.delete');
+
+Route::get('/posts/show/{postId}', [PostController::class, 'show'])->name('posts.show');

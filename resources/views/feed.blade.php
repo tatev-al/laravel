@@ -2,11 +2,7 @@
 
 @section('content')
 
-
     <div class="container">
-        <div class="button mb-5 d-flex flex-row-reverse">
-            <a class="btn btn-light float-right" href="{{ route('posts.transfer') }}">{{ __('Create') }}</a>
-        </div>
         @foreach($users as $user)
             <div class="row justify-content-center mt-3">
                 <div class="col-md-8">
@@ -21,17 +17,12 @@
                             </div>
                             <div class="p-4 w-75">
                                 <div class="d-flex justify-content-between"><h5 class="card-title">{{ $user['title'] }}</h5>
-                                <p class="card-text"><small class="text-muted">{{ $user['updated_at'] }}</small></p></div>
+                                    <p class="card-text"><small class="text-muted">{{ $user['updated_at'] }}</small></p></div>
                                 <div><p class="card-text">{{ Str::limit($user['description'], 250) }}</p></div>
                             </div>
                             <div class="d-flex flex-column">
-                                <form action="{{ route('posts.delete', ['postId'=> $user->id]) }}" method="GET" enctype="multipart/form-data" class="m-3">
-                                    @csrf
-                                    @method('GET')
-                                    <button class="btn btn-light">Delete</button>
-                                </form>
                                 <div class="m-3">
-                                    <a href="{{ route('posts.edit', ['postId'=> $user->id]) }}" class="btn btn-light">Edit</a>
+                                    <a href="{{ route('posts.show', ['postId'=> $user->id]) }}" class="btn btn-light">Show more</a>
                                 </div>
                             </div>
                         </div>
@@ -40,6 +31,8 @@
             </div>
         @endforeach
     </div>
-
+    <div class="d-flex justify-content-center p-4">
+        {{ $posts->links() }}
+    </div>
 
 @endsection

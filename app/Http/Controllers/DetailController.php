@@ -35,7 +35,7 @@ class DetailController extends Controller
             ]
         );
 
-        $user->profession()->sync($request->profession);
+        $user->user_professions()->sync($request->profession);
         return back()->with('successContact', 'Contact information has been updated successfully!');
     }
 }
