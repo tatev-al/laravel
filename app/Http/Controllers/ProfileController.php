@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\Profession;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -18,7 +19,7 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         $professions = Profession::select('id', 'name')->get();
-        $user = auth()->user()->load(['detail', 'user_professions', 'avatar']);
+        $user = auth()->user()->load(['detail', 'userProfessions', 'avatar']);
         if($user->avatar()->exists()) {
             $avatarPath = $user->avatar->path;
         } else {
@@ -29,7 +30,7 @@ class ProfileController extends Controller
             ->with('user', $user)
             ->with('avatarPath', $avatarPath)
             ->with('professions', $professions)
-            ->with('selected_professions', $user->user_professions);
+            ->with('selected_professions', $user->userProfessions);
     }
 
     public function update(Request $request)
@@ -51,5 +52,23 @@ class ProfileController extends Controller
         ]);
 
         return back()->with('success', 'Profile has been updated successfully!');
+    }
+
+    public function show(Post $profileId)
+    {
+        $profile = User::where('id', $profileId->user_id)->get()->load(['detail', 'avatar', 'userProfessions'])->first();
+        $professions = Profession::select('id', 'name')->get();
+
+        if($profile->avatar()->exists()) {
+            $avatarPath = $profile->avatar->path;
+        } else {
+            $avatarPath = 'images/avatars/avatar.jpg';
+        }
+
+        return view('showProfile')
+            ->with('profile', $profile)
+            ->with('avatarPath', $avatarPath)
+            ->with('professions', $professions)
+            ->with('selected_professions', $profile->userProfessions);
     }
 }

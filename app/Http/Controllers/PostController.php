@@ -34,7 +34,8 @@ class PostController extends Controller
         return view('showPost')
             ->with('postProfessions', Profession::all())
             ->with('post', $postId)
-            ->with('user', auth()->user()->where('id', $postId->user_id)->first());
+            ->with('user', auth()->user()->where('id', $postId->user_id)->first())
+            ->with('userId', auth()->id());
     }
 
     public function transfer()
@@ -70,7 +71,7 @@ class PostController extends Controller
             ]
         );
 
-        $newPost->post_professions()->sync($request->profession);
+        $newPost->postProfessions()->sync($request->profession);
         return redirect()->route('posts.index');
     }
 
@@ -116,7 +117,7 @@ class PostController extends Controller
             ]
         );
 
-        $post->where('user_id', auth()->user()->id)->first()->post_professions()->sync($request->profession);
+        $post->where('user_id', auth()->user()->id)->first()->postProfessions()->sync($request->profession);
         return redirect()->route('posts.index');
     }
 
@@ -124,7 +125,7 @@ class PostController extends Controller
     {
         $postId = $request->postId;
         $post = Post::where('id', $postId);
-        $post->where('user_id', auth()->user()->id)->first()->post_professions()->detach($request->profession);
+        $post->where('user_id', auth()->user()->id)->first()->postProfessions()->detach($request->profession);
         PostImage::where('post_id', $postId)->delete();
         $post->delete();
         return redirect()->route('posts.index');

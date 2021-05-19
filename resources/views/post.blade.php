@@ -25,13 +25,8 @@
                                 <div><p class="card-text">{{ Str::limit($user['description'], 250) }}</p></div>
                             </div>
                             <div class="d-flex flex-column">
-                                <form action="{{ route('posts.delete', ['postId'=> $user->id]) }}" method="GET" enctype="multipart/form-data" class="m-3">
-                                    @csrf
-                                    @method('GET')
-                                    <button class="btn btn-light">Delete</button>
-                                </form>
                                 <div class="m-3">
-                                    <a href="{{ route('posts.edit', ['postId'=> $user->id]) }}" class="btn btn-light">Edit</a>
+                                    <a href="{{ route('posts.show', ['postId'=> $user->id]) }}" class="btn btn-light">Show more</a>
                                 </div>
                             </div>
                         </div>

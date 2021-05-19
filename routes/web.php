@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AvatarController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FeedController;
@@ -43,3 +44,6 @@ Route::post('/posts/update/{postId}', [PostController::class, 'update'])->name('
 Route::get('/posts/{postId}', [PostController::class, 'delete'])->name('posts.delete');
 
 Route::get('/posts/show/{postId}', [PostController::class, 'show'])->name('posts.show');
+Route::get('/profile/show/{profileId}', [ProfileController::class, 'show'])->name('profile.show');
+
+Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');

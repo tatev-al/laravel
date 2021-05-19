@@ -48,7 +48,7 @@ class User extends Authenticatable
         return $this->hasOne(Detail::class);
     }
 
-    public function user_professions() : BelongsToMany
+    public function userProfessions() : BelongsToMany
     {
         return $this->belongsToMany(Profession::class,'user_professions');
     }
@@ -61,5 +61,10 @@ class User extends Authenticatable
     public function posts() : HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function galleries() : HasMany
+    {
+        return $this->hasMany(Gallery::class);
     }
 }

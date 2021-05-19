@@ -39,7 +39,7 @@
                     <div class="col-md-6">
                         <select class="form-control" id="user_profession" name="profession[]" multiple="multiple">
                             @foreach($postProfessions as $pr)
-                                <option value="{{ $pr['id'] }}" @if(in_array($pr->id, $post->post_professions->pluck('id')->all())) selected @endif>{{ $pr['name'] }}</option>
+                                <option value="{{ $pr['id'] }}" @if(in_array($pr->id, $post->postProfessions->pluck('id')->all())) selected @endif>{{ $pr['name'] }}</option>
                             @endforeach
                         </select>
                     </div>

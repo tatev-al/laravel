@@ -2,6 +2,12 @@
 
 @section('content')
 
+    @if ($users->isEmpty())
+        <span class="alert alert-success d-flex justify-content-center p-2">
+            {{ 'No matching posts.' }}
+        </span>
+    @endif
+
     <div class="container">
         @foreach($users as $user)
             <div class="row justify-content-center mt-3">
