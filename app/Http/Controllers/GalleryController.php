@@ -17,25 +17,58 @@ class GalleryController extends Controller
     {
         $user = auth()->user()->load(['galleries']);
 
-        return view('gallery')
+        return view('createGallery')
             ->with('user', $user);
     }
 
     public function create(Request $request)
     {
-//        $request->validate([
-//            'title' => 'required|string|max:191',
-//            'images' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048',
-//        ]);
-//
-//        Gallery::create($request->all());
-//        foreach ($request->images as $image) {
-//            $path = $image->store('images/' . $request->title);
-//            GalleryImage::create([
-//                'gallery_id' => $image->id,
-//                'original_name' => $image->getClientOriginalName(),
-//                'path' => $path
-//            ]);
-//        }
+        $request->validate([
+            'title' => 'required|string|max:191',
+            'images.*' => 'image|mimes:jpeg,jpg,png,gif|max:2048',
+        ]);
+
+        $gallery = Gallery::create([
+            'user_id' => auth()->id(),
+            'title' =>$request->title,
+        ]);
+
+        $files = $request->file('images');
+
+        if($request->hasFile('images')) {
+            foreach ($files as $file) {
+                $path = $file->store('images/' . $request->title );
+                GalleryImage::create([
+                    'gallery_id' => $gallery->id,
+                    'original_name' => $file->getClientOriginalName(),
+                    'path' => $path
+                ]);
+            }
+        }
+        return redirect()->route('profile');
+    }
+
+    public function transfer(Gallery $galleryId)
+    {
+        return view('editGallery')
+            ->with('gallery', Gallery::where('id', $galleryId->id)->first())
+            ->with('galleryImages', GalleryImage::where('gallery_id', $galleryId->id)->get());
+    }
+
+    public function edit(Request $request)
+    {
+
+    }
+
+    public function show(Gallery $galleryId)
+    {
+        return view('gallery')
+            ->with('gallery', Gallery::where('id', $galleryId->id)->first())
+            ->with('galleryImages', GalleryImage::where('gallery_id', $galleryId->id)->get());
+    }
+
+    public function delete(GalleryImage $imageId)
+    {
+
     }
 }

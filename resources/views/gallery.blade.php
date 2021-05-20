@@ -4,45 +4,39 @@
 
 
     <div class="container">
-        <div class="card p-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
 
+                    <form method="POST" action="{{ route('gallery.transfer', ['galleryId'=> $gallery->id]) }}" enctype="multipart/form-data">
+                        @csrf
 
-            <form method="POST" action="{{--{{ route('gallery.edit')}}--}}" enctype="multipart/form-data">
-                @csrf
+                        @method('PUT')
+                            <div class="card-header">
+                                <p class="mt-2">{{ $gallery->title }}</p>
+                            </div>
 
-                @method('POST')
-                <div class="form-group row">
-                    <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
+                            <div class="card-body">
+                            <div class="form-group row">
+                                @foreach($galleryImages as $images)
+                                    <div class="d-flex justify-content-center w-25 h-25 m-1">
+                                        <img src="{{ asset('storage/' . $images->path ) }}" class="img-fluid" alt="gallery image">
+                                    </div>
+                                @endforeach
+                            </div>
+                            </div>
 
-                    <div class="col-md-6">
-                        <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" required autofocus>
-                    </div>
+                            <div class="form-group row mb-0 p-3">
+                                <div class="col-md-8 offset-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Edit') }}
+                                    </button>
+                                </div>
+                            </div>
+                    </form>
                 </div>
-
-                <div class="form-group row">
-                    <label for="images" class="col-md-4 col-form-label text-md-right">{{ __('Image') }}</label>
-                    <div class="custom-file mt-1 col-md-6">
-                        <input id="images" type="file" class="custom-file-input" name="images[]" multiple>
-                        <label class="custom-file-label">Choose file</label>
-                    </div>
-
-                    @error('postImage')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-
-                <div class="form-group row mb-0">
-                    <div class="col-md-8 offset-md-4">
-                        <button type="submit" class="btn btn-primary">
-                            {{ __('Add Files') }}
-                        </button>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
-
     </div>
 
 

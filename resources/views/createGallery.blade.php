@@ -7,7 +7,7 @@
         <div class="card p-4">
 
 
-            <form method="POST" action="{{--{{ route('gallery.edit')}}--}}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('gallery.create') }}" enctype="multipart/form-data">
                 @csrf
 
                 @method('POST')
@@ -26,8 +26,8 @@
                         <label class="custom-file-label">Choose file</label>
                     </div>
 
-                    @error('postImage')
-                        <span class="invalid-feedback" role="alert">
+                    @error('images')
+                    <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
@@ -36,7 +36,7 @@
                 <div class="form-group row mb-0">
                     <div class="col-md-8 offset-md-4">
                         <button type="submit" class="btn btn-primary">
-                            {{ __('Create') }}
+                            {{ __('Add File') }}
                         </button>
                     </div>
                 </div>

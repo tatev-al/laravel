@@ -164,4 +164,36 @@
         </div>
     </div>
 
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Galleries') }}</div>
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between" style="max-width:250px">
+                            @foreach($galleries as $gallery)
+                                <div class="">
+                                    <div class="d-flex justify-content-center">
+                                        <p class="card-text">{{ $gallery['title'] }}</p>
+                                    </div>
+                                    <a href="{{ route('gallery.show', ['galleryId'=> $gallery['id']]) }}">
+                                        @foreach($gallery->galleryImages as $g)
+                                            <div class="">
+                                                <img src="{{ asset('storage/' . $g->path ) }}" class="img-fluid" alt="gallery image">
+                                            </div>
+                                            @break
+                                        @endforeach
+                                    </a>
+
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection

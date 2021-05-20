@@ -44,6 +44,11 @@ Route::post('/posts/update/{postId}', [PostController::class, 'update'])->name('
 Route::get('/posts/{postId}', [PostController::class, 'delete'])->name('posts.delete');
 
 Route::get('/posts/show/{postId}', [PostController::class, 'show'])->name('posts.show');
-Route::get('/profile/show/{profileId}', [ProfileController::class, 'show'])->name('profile.show');
+Route::get('/profile/{profileId}', [ProfileController::class, 'show'])->name('profile.show');
 
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
+Route::post('/gallery/create', [GalleryController::class, 'create'])->name('gallery.create');
+Route::put('/gallery/edit', [GalleryController::class, 'edit'])->name('gallery.edit');
+Route::get('/gallery/show/{galleryId}', [GalleryController::class, 'show'])->name('gallery.show');
+Route::put('/gallery/{galleryId}', [GalleryController::class, 'transfer'])->name('gallery.transfer');
+Route::delete('/gallery/{imageId}', [GalleryController::class, 'delete'])->name('gallery.delete');

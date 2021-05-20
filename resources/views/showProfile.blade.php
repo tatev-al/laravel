@@ -94,4 +94,27 @@
         </div>
     </div>
 
+{{--    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Galleries') }}</div>
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between">
+                        @foreach($galleries as $gallery)
+                            <div class="">
+                                <p class="card-text">{{ $gallery['title'] }}</p>
+                                <img src="--}}{{--{{ asset('storage/' . $galleryImages['path'] ) }}--}}{{--" class="img-fluid" alt="gallery image">
+                            </div>
+                        @endforeach
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>--}}
+
 @endsection
