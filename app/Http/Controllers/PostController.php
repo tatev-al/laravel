@@ -62,6 +62,7 @@ class PostController extends Controller
                 'description' => $request->description,
             ]
         );
+
         PostImage::create(
             [
                 'post_id' => $newPost->id,
@@ -72,12 +73,14 @@ class PostController extends Controller
         );
 
         $newPost->postProfessions()->sync($request->profession);
+
         return redirect()->route('posts.index');
     }
 
     public function edit(Post $postId)
     {
         abort_if($postId->user_id !== auth()->id(), 403, 'Unauthorized action.');
+
         return view('editPost')
             ->with('postProfessions', Profession::all())
             ->with('post', $postId);
@@ -118,6 +121,7 @@ class PostController extends Controller
         );
 
         $post->where('user_id', auth()->user()->id)->first()->postProfessions()->sync($request->profession);
+
         return redirect()->route('posts.index');
     }
 
@@ -128,6 +132,7 @@ class PostController extends Controller
         $post->where('user_id', auth()->user()->id)->first()->postProfessions()->detach($request->profession);
         PostImage::where('post_id', $postId)->delete();
         $post->delete();
+
         return redirect()->route('posts.index');
     }
 }

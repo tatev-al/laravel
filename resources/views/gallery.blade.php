@@ -4,35 +4,35 @@
 
 
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row d-flex justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-
                     <form method="POST" action="{{ route('gallery.transfer', ['galleryId'=> $gallery->id]) }}" enctype="multipart/form-data">
                         @csrf
 
-                        @method('PUT')
+                        @method('GET')
                             <div class="card-header">
                                 <p class="mt-2">{{ $gallery->title }}</p>
                             </div>
 
                             <div class="card-body">
-                            <div class="form-group row">
-                                @foreach($galleryImages as $images)
-                                    <div class="d-flex justify-content-center w-25 h-25 m-1">
-                                        <img src="{{ asset('storage/' . $images->path ) }}" class="img-fluid" alt="gallery image">
-                                    </div>
-                                @endforeach
-                            </div>
-                            </div>
-
-                            <div class="form-group row mb-0 p-3">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Edit') }}
-                                    </button>
+                                <div class="d-flex flex-wrap">
+                                    @foreach($galleryImages as $images)
+                                        <div class="d-flex justify-content-center align-items-center overflow-hidden mb-3 ml-3"  style="width: 150px; height: 150px">
+                                            <img src="{{ asset('storage/' . $images->path ) }}" class="img-fluid" alt="gallery image">
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
+
+                            @if(Auth::id() == $gallery->user_id)
+                                <div class="d-flex flex-column">
+                                    <button type="submit" class="btn btn-light">
+                                        {{ __('Edit gallery') }}
+                                    </button>
+                                </div>
+                            @endif
+
                     </form>
                 </div>
             </div>

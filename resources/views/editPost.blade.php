@@ -5,8 +5,6 @@
 
     <div class="container">
         <div class="card p-4">
-
-
             <form method="POST" action="{{ route('posts.update', ['postId'=> $post->id])}}" enctype="multipart/form-data">
                 @csrf
 
@@ -68,7 +66,6 @@
                 </div>
             </form>
         </div>
-
     </div>
 
 

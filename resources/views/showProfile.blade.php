@@ -94,27 +94,31 @@
         </div>
     </div>
 
-{{--    <div class="container">
-        <div class="row justify-content-center">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">{{ __('Galleries') }}</div>
 
                     <div class="card-body">
-
-                        <div class="d-flex justify-content-between">
-                        @foreach($galleries as $gallery)
-                            <div class="">
-                                <p class="card-text">{{ $gallery['title'] }}</p>
-                                <img src="--}}{{--{{ asset('storage/' . $galleryImages['path'] ) }}--}}{{--" class="img-fluid" alt="gallery image">
-                            </div>
-                        @endforeach
+                        <div class="d-flex flex-wrap">
+                            @foreach($galleries as $gallery)
+                                <a href="{{ route('gallery.show', ['galleryId'=> $gallery['id']]) }}">
+                                    <div class="d-flex flex-column">
+                                        <div class="text-center">
+                                            <p class="card-text">{{ $gallery['title'] }}</p>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center overflow-hidden mb-3 ml-3" style="width: 150px; height: 150px">
+                                            <img src="{{ asset('storage/' . $gallery->galleryImages[0]->path ) }}" class="img-fluid" alt="gallery image">
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-    </div>--}}
+    </div>
 
 @endsection

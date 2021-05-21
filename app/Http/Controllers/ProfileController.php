@@ -23,6 +23,7 @@ class ProfileController extends Controller
     {
         $professions = Profession::select('id', 'name')->get();
         $user = auth()->user()->load(['detail', 'userProfessions', 'avatar']);
+
         if($user->avatar()->exists()) {
             $avatarPath = $user->avatar->path;
         } else {
@@ -30,15 +31,6 @@ class ProfileController extends Controller
         }
 
         $galleries = Gallery::where('user_id', auth()->id())->get();
-
-        //dd(GalleryImage::where('gallery_id', [42,43])->get());
-        //dd(Gallery::where('user_id', auth()->id())->get()->load(['galleryImages']));
-        //dd(Gallery::where('user_id', auth()->id())->get()->load(['galleryImages'])->pluck('galleryImages')->all());
-        //$test = Gallery::where('user_id', auth()->id())->get()->load(['galleryImages'])->pluck('galleryImages')->all();
-
-//        dd(Gallery::whereHas('galleryImages', function (Builder $query) {
-//            $query->whereIn('gallery_id', Gallery::where('user_id', auth()->id())->get()->pluck('id'));
-//        }));
 
         return view('profile')
             ->with('user', $user)
@@ -51,6 +43,7 @@ class ProfileController extends Controller
     public function update(Request $request)
     {
         $user = auth()->user();
+
         $request->validate([
             'name' => 'required|string|max:191',
             'email' => [
@@ -79,19 +72,13 @@ class ProfileController extends Controller
         } else {
             $avatarPath = 'images/avatars/avatar.jpg';
         }
-
-//        $galleries = Gallery::where('user_id', $profileId->user_id)->get();
-//        dd($galleries->all());
-//        dd(GalleryImage::all());
-//        dd(Gallery::where('user_id', $profileId->user_id)->get()->load(['galleryImages'])->all()[0]->galleryImages);
+        $galleries = Gallery::where('user_id', $profileId->id)->get();
 
         return view('showProfile')
             ->with('profile', $profile)
             ->with('avatarPath', $avatarPath)
             ->with('professions', $professions)
-            ->with('selected_professions', $profile->userProfessions);
-
-//            ->with('galleries', $galleries)
-//            ->with('galleryImages', $galleries->load(['galleryImages']));
+            ->with('selected_professions', $profile->userProfessions)
+            ->with('galleries', $galleries);
     }
 }

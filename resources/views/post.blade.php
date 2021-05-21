@@ -13,11 +13,13 @@
                     <div class="card">
                         <div class="card-body d-flex">
                             <div class="w-25 h-25">
+
                                 @if(!$user->image)
                                     <img src="{{ asset('storage/images/posts/post.jpg' ) }}" class="img-fluid" alt="{{ asset('storage/' . $user->image ) }}">
                                 @else
                                     <img src="{{ asset('storage/' . $user->image->path ) }}" class="img-fluid" alt="post image">
                                 @endif
+
                             </div>
                             <div class="p-4 w-75">
                                 <div class="d-flex justify-content-between"><h5 class="card-title">{{ $user['title'] }}</h5>

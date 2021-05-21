@@ -165,29 +165,23 @@
     </div>
 
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row d-flex justify-content-center">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">{{ __('Galleries') }}</div>
-
                     <div class="card-body">
-
-                        <div class="d-flex justify-content-between" style="max-width:250px">
+                        <div class="d-flex flex-wrap">
                             @foreach($galleries as $gallery)
-                                <div class="">
-                                    <div class="d-flex justify-content-center">
-                                        <p class="card-text">{{ $gallery['title'] }}</p>
+                                <a href="{{ route('gallery.show', ['galleryId'=> $gallery['id']]) }}">
+                                    <div class="d-flex flex-column">
+                                        <div class="text-center">
+                                            <p class="card-text">{{ $gallery['title'] }}</p>
+                                        </div>
+                                        <div class="d-flex justify-content-center align-items-center overflow-hidden mb-3 ml-3" style="width: 150px; height: 150px">
+                                            <img src="{{ asset('storage/' . $gallery->galleryImages[0]->path ) }}" class="img-fluid" alt="gallery image">
+                                        </div>
                                     </div>
-                                    <a href="{{ route('gallery.show', ['galleryId'=> $gallery['id']]) }}">
-                                        @foreach($gallery->galleryImages as $g)
-                                            <div class="">
-                                                <img src="{{ asset('storage/' . $g->path ) }}" class="img-fluid" alt="gallery image">
-                                            </div>
-                                            @break
-                                        @endforeach
-                                    </a>
-
-                                </div>
+                                </a>
                             @endforeach
                         </div>
                     </div>
