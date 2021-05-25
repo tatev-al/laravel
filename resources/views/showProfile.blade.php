@@ -10,8 +10,7 @@
 
                     <div class="card-body">
                         <div class="row-cols-lg-5">
-                            <img src="{{ $user->avatar ? asset('/storage/' . $user->avatar->path) : 'https://randomuser.me/api/portraits/women/44.jpg' }}" class="img-fluid" alt="avatar">
-                                <img src="{{ asset('/storage/' . $avatarPath ) }}" class="img-fluid" alt="avatar">
+                            <img src="{{ $profile->avatar ? asset('/storage/' . $profile->avatar->path) : 'https://randomuser.me/api/portraits/women/44.jpg' }}" class="img-fluid" alt="avatar">
                         </div>
 
                             <div class="form-group row">
@@ -82,9 +81,9 @@
                                 <label for="user_profession" class="col-md-4 col-form-label text-md-right">{{ __('Profession(s):') }}</label>
 
                                 <div class="col-md-6">
-                                    @foreach($professions as $pr)
-                                        @if(in_array($pr->id, $profile->professions->pluck('id')->all()))
-                                            <p class="mt-2">{{ $pr['name'] }}</p>
+                                    @foreach($professions as $profession)
+                                        @if(in_array($profession->id, $profile->professions->pluck('id')->all()))
+                                            <p class="mt-2">{{ $profession->name }}</p>
                                         @endif
                                     @endforeach
                                 </div>
@@ -103,7 +102,7 @@
 
                     <div class="card-body">
                         <div class="d-flex flex-wrap">
-                            @foreach($galleries as $gallery)
+                            @foreach($profile->galleries as $gallery)
                                 <a href="{{ route('gallery.show', ['gallery'=> $gallery['id']]) }}">
                                     <div class="d-flex flex-column">
                                         <div class="text-center">

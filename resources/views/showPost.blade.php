@@ -5,7 +5,7 @@
 
     <div class="container">
 
-        <a class="card-header d-flex justify-content-center" href="{{ route('profile.show', ['profile'=> $post->user->id]) }}">{{ $post->user->name }}</a>
+        <a class="card-header d-flex justify-content-center" href="{{ route('profile.show', ['user'=> $post->user->id]) }}">{{ $post->user->name }}</a>
 
         <div class="card-body">
 

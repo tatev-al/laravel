@@ -6,7 +6,6 @@ use App\Models\PostImage;
 use App\Models\Profession;
 use Illuminate\Http\Request;
 use App\Models\Post;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
