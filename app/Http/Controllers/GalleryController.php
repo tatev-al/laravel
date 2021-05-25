@@ -6,7 +6,9 @@ use App\Models\Gallery;
 use App\Models\GalleryImage;
 use App\Models\Profession;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class GalleryController extends Controller
 {
@@ -15,15 +17,12 @@ class GalleryController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(Request $request)
+    public function create(Request $request)
     {
-        $user = auth()->user()->load(['galleries']);
-
-        return view('createGallery')
-            ->with('user', $user);
+        return view('createGallery');
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'title' => 'string|max:191',
@@ -39,7 +38,8 @@ class GalleryController extends Controller
 
         if($request->hasFile('images')) {
             foreach ($files as $file) {
-                $path = $file->store('images/' . $request->title );
+                $path = $file->store('images/' . Str::slug($request->title, '_') );
+
                 GalleryImage::create([
                     'gallery_id' => $gallery->id,
                     'original_name' => $file->getClientOriginalName(),
@@ -51,21 +51,28 @@ class GalleryController extends Controller
         return redirect()->route('profile');
     }
 
-    public function transfer(Gallery $galleryId)
+    public function show(Gallery $gallery)
     {
-        return view('editGallery')
-            ->with('gallery', Gallery::where('id', $galleryId->id)->first())
-            ->with('galleryImages', GalleryImage::where('gallery_id', $galleryId->id)->get());
+        return view('gallery')
+            ->with('gallery', Gallery::with('galleryImages')->where('id', $gallery->id)->first());
     }
 
-    public function edit(Request $request, Gallery $galleryId)
+    public function edit(Gallery $gallery)
+    {
+        abort_if($gallery->user_id !== auth()->id(), 403, 'Unauthorized action.');
+
+        return view('editGallery')
+            ->with('gallery', Gallery::with('galleryImages')->where('id', $gallery->id)->first());
+    }
+
+    public function update(Request $request, Gallery $gallery)
     {
         $request->validate([
             'title' => 'string|max:191',
             'images.*' => 'image|mimes:jpeg,jpg,png,gif|max:2048',
         ]);
 
-        Gallery::where('id', $galleryId->id)->update([
+        Gallery::where('id', $gallery->id)->update([
             'title' =>$request->title,
         ]);
 
@@ -75,7 +82,7 @@ class GalleryController extends Controller
             foreach ($files as $file) {
                 $path = $file->store('images/' . $request->title );
                 GalleryImage::create([
-                    'gallery_id' => $galleryId->id,
+                    'gallery_id' => $gallery->id,
                     'original_name' => $file->getClientOriginalName(),
                     'path' => $path
                 ]);
@@ -85,27 +92,25 @@ class GalleryController extends Controller
         return back();
     }
 
-    public function show(Gallery $galleryId)
+    public function delete(GalleryImage $image)
     {
-        return view('gallery')
-            ->with('gallery', Gallery::where('id', $galleryId->id)->first())
-            ->with('galleryImages', GalleryImage::where('gallery_id', $galleryId->id)->get());
-    }
+        if($image->path) {
+            Storage::delete($image->path);
+        }
 
-    public function delete(GalleryImage $imageId)
-    {
-        Storage::delete($imageId->path);
-        $imageId->delete();
+        $image->delete();
 
         return back();
     }
 
-    public function destroy(Gallery $galleryId)
+    public function destroy(Request $request, Gallery $gallery)
     {
-        $galleryImages = GalleryImage::where('gallery_id', $galleryId->id);
-        Storage::delete($galleryImages->pluck('path')->all());
-        $galleryImages->delete();
-        $galleryId->delete();
+        abort_if($gallery->user_id !== auth()->id(), 403, 'Unauthorized action.');
+
+        Storage::delete($gallery->galleryImages->pluck('path')->all());
+        $gallery->galleryImages()->delete();
+        File::deleteDirectory(public_path('storage/images/' . Str::slug($gallery->title, '_')));
+        $gallery->delete();
 
         return redirect()->route('profile');
     }

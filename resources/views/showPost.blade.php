@@ -5,7 +5,7 @@
 
     <div class="container">
 
-        <a class="card-header d-flex justify-content-center" href="{{ route('profile.show', ['profileId'=> $user->id]) }}">{{ $user->name }}</a>
+        <a class="card-header d-flex justify-content-center" href="{{ route('profile.show', ['profile'=> $post->user->id]) }}">{{ $post->user->name }}</a>
 
         <div class="card-body">
 
@@ -29,9 +29,9 @@
                 <label for="user_profession" class="col-md-4 col-form-label text-md-right">{{ __('Profession(s)') }}</label>
 
                 <div class="col-md-6">
-                        @foreach($postProfessions as $pr)
-                            @if(in_array($pr->id, $post->postProfessions->pluck('id')->all()))
-                                <p class="mt-2">{{ $pr['name'] }}</p>
+                        @foreach($professions as $profession)
+                            @if(in_array($profession->id, $post->professions->pluck('id')->all()))
+                                <p class="mt-2">{{ $profession->name }}</p>
                             @endif
                         @endforeach
                 </div>
@@ -40,23 +40,19 @@
             <div class="form-group row">
                 <label for="postImage" class="col-md-4 col-form-label text-md-right">{{ __('Image') }}</label>
                 <div class="w-25 h-25">
-                    @if(!$post->image)
-                        <img src="{{ asset('storage/images/posts/post.jpg' ) }}" class="img-fluid" alt="{{ asset('storage/' . $user->image ) }}">
-                    @else
-                        <img src="{{ asset('storage/' . $post->image->path ) }}" class="img-fluid" alt="post image">
-                    @endif
+                    <img src="{{ $post->image ? asset('/storage/' . $post->image->path) : 'https://randomuser.me/api/portraits/women/48.jpg' }}" class="img-fluid" alt="post image">
                 </div>
             </div>
             <div class="d-flex justify-content-end">
 
-                @if($userId == $user->id)
-                    <form action="{{ route('posts.delete', ['postId'=> $post]) }}" method="GET" enctype="multipart/form-data" class="m-3">
+                @if($post->user->id == auth()->id())
+                    <form action="{{ route('posts.destroy', ['post'=> $post]) }}" method="POST" enctype="multipart/form-data" class="m-3">
                         @csrf
-                        @method('GET')
+                        @method('DELETE')
                         <button class="btn btn-danger">Delete</button>
                     </form>
                     <div class="m-3">
-                        <a href="{{ route('posts.edit', ['postId'=> $post]) }}" class="btn btn-light">Edit</a>
+                        <a href="{{ route('posts.edit', ['post'=> $post]) }}" class="btn btn-light">Edit</a>
                     </div>
                 @endif
 

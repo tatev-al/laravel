@@ -34,7 +34,7 @@
                                 <label for="user_profession" class="col-md-4 col-form-label text-md-right">{{ __('Profession(s)') }}</label>
 
                                 <div class="col-md-6">
-                                    <select class="form-control" id="user_profession" name="profession[]" multiple="multiple">
+                                    <select class="form-control" id="user_profession" name="professions[]" multiple="multiple">
                                         @foreach($professions as $pr)
                                             <option value="{{ $pr['id'] }}" @if(in_array($pr->id, $user->profession->pluck('id')->all())) selected @endif>{{ $pr['name'] }}</option>
                                         @endforeach

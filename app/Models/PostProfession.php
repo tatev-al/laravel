@@ -18,7 +18,7 @@ class PostProfession extends Model
         'name',
     ];
 
-    public function posts() : BelongsToMany
+    public function posts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'post_professions');
     }

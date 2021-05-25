@@ -25,13 +25,13 @@ class FeedController extends Controller
      */
     public function index()
     {
-        $posts = Post::whereHas('postProfessions', function (Builder $query) {
-            $query->whereIn('profession_id', auth()->user()->userProfessions->pluck('id'));
-        })->where('user_id', '!=', auth()->id());
+        $posts = Post::with('image')->whereHas('professions', function (Builder $query) {
+            $query->whereIn('profession_id', auth()->user()->professions->pluck('id'));
+            })
+            ->where('user_id', '!=', auth()->id())
+            ->paginate(5);
 
         return view('feed')
-            ->with('users', $posts->get())
-            ->with('posts', $posts->paginate(5))
-            ->with('postImage', $posts->get()->load(['image']));
+            ->with('posts', $posts);
     }
 }

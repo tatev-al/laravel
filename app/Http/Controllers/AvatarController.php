@@ -32,6 +32,6 @@ class AvatarController extends Controller
             ]
         );
 
-        return back()->with('successAvatar', 'Avatar has been uploaded successfully!');
+        return back()->with('success', 'Avatar has been uploaded successfully!');
     }
 }

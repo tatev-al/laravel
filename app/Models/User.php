@@ -43,27 +43,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function detail() : HasOne
+    public function detail(): HasOne
     {
         return $this->hasOne(Detail::class);
     }
 
-    public function userProfessions() : BelongsToMany
+    public function professions(): BelongsToMany
     {
         return $this->belongsToMany(Profession::class,'user_professions');
     }
 
-    public function avatar() : HasOne
+    public function avatar(): HasOne
     {
         return $this->hasOne(Avatar::class);
     }
 
-    public function posts() : HasMany
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
-    public function galleries() : HasMany
+    public function galleries(): HasMany
     {
         return $this->hasMany(Gallery::class);
     }

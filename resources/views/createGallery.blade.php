@@ -7,7 +7,7 @@
         <div class="card p-4">
 
 
-            <form method="POST" action="{{ route('gallery.create') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('gallery.store') }}" enctype="multipart/form-data">
                 @csrf
 
                 @method('POST')

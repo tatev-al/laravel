@@ -68,7 +68,7 @@
                                         {{ __('Profile') }}
                                     </a>
 
-                                    <a class="dropdown-item" href="{{ route('gallery.index') }}">
+                                    <a class="dropdown-item" href="{{ route('gallery.create') }}">
                                         {{ __('Create New Gallery') }}
                                     </a>
 

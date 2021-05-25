@@ -7,7 +7,7 @@
         <div class="row d-flex justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <form method="POST" action="{{ route('gallery.transfer', ['galleryId'=> $gallery->id]) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('gallery.edit', ['gallery'=> $gallery->id]) }}" enctype="multipart/form-data">
                         @csrf
 
                         @method('GET')
@@ -17,7 +17,7 @@
 
                             <div class="card-body">
                                 <div class="d-flex flex-wrap">
-                                    @foreach($galleryImages as $images)
+                                    @foreach($gallery->galleryImages as $images)
                                         <div class="d-flex justify-content-center align-items-center overflow-hidden mb-3 ml-3"  style="width: 150px; height: 150px">
                                             <img src="{{ asset('storage/' . $images->path ) }}" class="img-fluid" alt="gallery image">
                                         </div>

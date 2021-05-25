@@ -21,7 +21,7 @@ class PostImage extends Model
         'processed',
     ];
 
-    public function post() : BelongsTo
+    public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
     }

@@ -16,28 +16,15 @@ class ProfileController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-//        $this->middleware('admin');
     }
 
     public function index(Request $request)
     {
-        $professions = Profession::select('id', 'name')->get();
-        $user = auth()->user()->load(['detail', 'userProfessions', 'avatar']);
-
-        if($user->avatar()->exists()) {
-            $avatarPath = $user->avatar->path;
-        } else {
-            $avatarPath = 'images/avatars/avatar.jpg';
-        }
-
-        $galleries = Gallery::where('user_id', auth()->id())->get();
+        $user = auth()->user()->load(['detail', 'professions', 'avatar', 'galleries']);
 
         return view('profile')
             ->with('user', $user)
-            ->with('avatarPath', $avatarPath)
-            ->with('professions', $professions)
-            ->with('selected_professions', $user->userProfessions)
-            ->with('galleries', $galleries);
+            ->with('professions', Profession::all());
     }
 
     public function update(Request $request)
@@ -62,9 +49,9 @@ class ProfileController extends Controller
         return back()->with('success', 'Profile has been updated successfully!');
     }
 
-    public function show(Post $profileId)
+    public function show(Post $profile)
     {
-        $profile = User::where('id', $profileId->user_id)->get()->load(['detail', 'avatar', 'userProfessions'])->first();
+        $profile = User::where('id', $profile->user_id)->get()->load(['detail', 'avatar', 'professions', 'galleries'])->first();
         $professions = Profession::select('id', 'name')->get();
 
         if($profile->avatar()->exists()) {
@@ -72,13 +59,13 @@ class ProfileController extends Controller
         } else {
             $avatarPath = 'images/avatars/avatar.jpg';
         }
-        $galleries = Gallery::where('user_id', $profileId->id)->get();
+
+        $galleries = Gallery::where('user_id', $profile->id)->get();
 
         return view('showProfile')
             ->with('profile', $profile)
-            ->with('avatarPath', $avatarPath)
             ->with('professions', $professions)
-            ->with('selected_professions', $profile->userProfessions)
+            ->with('selected_professions', $profile->professions)
             ->with('galleries', $galleries);
     }
 }

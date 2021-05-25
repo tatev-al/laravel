@@ -21,7 +21,7 @@ class GalleryImage extends Model
         'processed',
     ];
 
-    public function gallery() : BelongsTo
+    public function gallery(): BelongsTo
     {
         return $this->belongsTo(Gallery::class);
     }

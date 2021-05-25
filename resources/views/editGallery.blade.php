@@ -6,7 +6,7 @@
     <div class="container">
         <div class="card p-4">
 
-            <form method="POST" action="{{ route('gallery.edit', ['galleryId'=> $gallery->id]) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('gallery.update', ['gallery'=> $gallery->id]) }}" enctype="multipart/form-data">
                 @csrf
 
                 @method('PUT')
@@ -45,14 +45,14 @@
 
             <div class="card-body">
                 <div class="form-group d-flex flex-wrap">
-                    @foreach($galleryImages as $images)
+                    @foreach($gallery->galleryImages as $images)
 
                         <div class="d-flex flex-column align-items-center m-3">
                             <div class="d-flex justify-content-center align-items-center overflow-hidden mb-3 ml-3" style="width: 150px; height: 150px" >
                                 <img src="{{ asset('storage/' . $images->path ) }}" class="img-fluid" alt="gallery image">
                             </div>
                             <div class="d-flex flex-column">
-                                <form method="POST" action="{{ route('gallery.delete', ['imageId'=> $images->id]) }}" enctype="multipart/form-data">
+                                <form method="POST" action="{{ route('gallery.delete', ['image'=> $images->id]) }}" enctype="multipart/form-data">
                                     @csrf
 
                                     @method('DELETE')
@@ -71,12 +71,12 @@
                         <a class="btn btn-success float-right" href="{{ route('profile') }}">{{ __('Save changes') }}</a>
                     </div>
                     <div class="button mr-5 mb-5">
-                        <form method="POST" action="{{ route('gallery.destroy', ['galleryId'=> $gallery->id]) }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route('gallery.destroy', ['gallery'=> $gallery->id]) }}" enctype="multipart/form-data">
                             @csrf
 
                             @method('DELETE')
 
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-danger">
                                 {{ __('Delete gallery') }}
                             </button>
                         </form>

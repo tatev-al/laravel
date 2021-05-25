@@ -7,7 +7,7 @@
         <div class="card p-4">
 
 
-            <form method="POST" action="{{ route('posts.create')}}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('posts.store')}}" enctype="multipart/form-data">
                 @csrf
 
                 @method('POST')
@@ -37,9 +37,9 @@
                     <label for="user_profession" class="col-md-4 col-form-label text-md-right">{{ __('Profession(s)') }}</label>
 
                     <div class="col-md-6">
-                        <select class="form-control" id="user_profession" name="profession[]" multiple="multiple">
-                            @foreach($postProfessions as $pr)
-                                <option value="{{ $pr['id'] }}">{{ $pr['name'] }}</option>
+                        <select class="form-control" id="user_profession" name="professions[]" multiple="multiple">
+                            @foreach($professions as $profession)
+                                <option value="{{ $profession['id'] }}">{{ $profession['name'] }}</option>
                             @endforeach
                         </select>
                     </div>

@@ -10,7 +10,8 @@
 
                     <div class="card-body">
                         <div class="row-cols-lg-5">
-                                <img src="{{ asset('/storage/'. $avatarPath ) }}" class="img-fluid" alt="avatar">
+                            <img src="{{ $user->avatar ? asset('/storage/' . $user->avatar->path) : 'https://randomuser.me/api/portraits/women/44.jpg' }}" class="img-fluid" alt="avatar">
+                                <img src="{{ asset('/storage/' . $avatarPath ) }}" class="img-fluid" alt="avatar">
                         </div>
 
                             <div class="form-group row">
@@ -82,7 +83,7 @@
 
                                 <div class="col-md-6">
                                     @foreach($professions as $pr)
-                                        @if(in_array($pr->id, $profile->userProfessions->pluck('id')->all()))
+                                        @if(in_array($pr->id, $profile->professions->pluck('id')->all()))
                                             <p class="mt-2">{{ $pr['name'] }}</p>
                                         @endif
                                     @endforeach
@@ -103,7 +104,7 @@
                     <div class="card-body">
                         <div class="d-flex flex-wrap">
                             @foreach($galleries as $gallery)
-                                <a href="{{ route('gallery.show', ['galleryId'=> $gallery['id']]) }}">
+                                <a href="{{ route('gallery.show', ['gallery'=> $gallery['id']]) }}">
                                     <div class="d-flex flex-column">
                                         <div class="text-center">
                                             <p class="card-text">{{ $gallery['title'] }}</p>

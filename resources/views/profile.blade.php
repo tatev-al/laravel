@@ -1,19 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    @if (session('successAvatar'))
-        <span class="alert alert-success d-flex justify-content-center p-2">
-            {{ session('successAvatar') }}
-        </span>
-    @endif
     @if (session('success'))
         <span class="alert alert-success d-flex justify-content-center p-2">
             {{ session('success') }}
-        </span>
-    @endif
-    @if (session('successContact'))
-        <span class="alert alert-success d-flex justify-content-center p-2">
-            {{ session('successContact') }}
         </span>
     @endif
 
@@ -25,7 +15,7 @@
 
                     <div class="card-body">
                         <div class="row-cols-lg-5">
-                                <img src="{{ asset('/storage/'. $avatarPath ) }}" class="img-fluid" alt="avatar">
+                            <img src="{{ $user->avatar ? asset('/storage/' . $user->avatar->path) : 'https://randomuser.me/api/portraits/women/44.jpg' }}" class="img-fluid" alt="avatar">
                             <form method="POST" action="{{ route('profile.upload')}}" enctype="multipart/form-data">
                                 @csrf
 
@@ -54,7 +44,7 @@
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user->name }}" required autofocus>
+                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user->name }}" autofocus>
                                 </div>
                             </div>
 
@@ -62,7 +52,7 @@
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('New E-Mail Address') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autofocus>
+                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}">
 
                                     @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -76,7 +66,7 @@
                                 <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="password" type="text" class="form-control @error('password') is-invalid @enderror" name="password" autofocus>
+                                    <input id="password" type="text" class="form-control @error('password') is-invalid @enderror" name="password">
                                 </div>
                             </div>
 
@@ -111,7 +101,7 @@
                                 <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
 
                                 <div class="col-md-6">
-                                        <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ optional($user->detail)->phone }}" required autofocus>
+                                        <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ optional($user->detail)->phone }}" autofocus>
                                 </div>
                             </div>
 
@@ -119,7 +109,7 @@
                                 <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
 
                                 <div class="col-md-6">
-                                        <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ optional($user->detail)->address }}" required autofocus>
+                                        <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ optional($user->detail)->address }}">
                                 </div>
                             </div>
 
@@ -127,7 +117,7 @@
                                 <label for="city" class="col-md-4 col-form-label text-md-right">{{ __('City') }}</label>
 
                                 <div class="col-md-6">
-                                        <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ optional($user->detail)->city }}" required autofocus>
+                                        <input id="city" type="text" class="form-control @error('city') is-invalid @enderror" name="city" value="{{ optional($user->detail)->city }}">
                                 </div>
                             </div>
 
@@ -135,7 +125,7 @@
                                 <label for="country" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
 
                                 <div class="col-md-6">
-                                        <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ optional($user->detail)->country }}" required autofocus>
+                                        <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ optional($user->detail)->country }}">
                                 </div>
                             </div>
 
@@ -143,9 +133,9 @@
                                 <label for="user_profession" class="col-md-4 col-form-label text-md-right">{{ __('Profession(s)') }}</label>
 
                                 <div class="col-md-6">
-                                    <select class="form-control" id="user_profession" name="profession[]" multiple="multiple">
-                                        @foreach($professions as $pr)
-                                            <option value="{{ $pr['id'] }}" @if(in_array($pr->id, $user->userProfessions->pluck('id')->all())) selected @endif>{{ $pr['name'] }}</option>
+                                    <select class="form-control" id="user_profession" name="professions[]" multiple="multiple">
+                                        @foreach($professions as $profession)
+                                            <option value="{{ $profession->id }}" @if($user->professions->contains($profession->id)) selected @endif>{{ $profession->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -171,11 +161,11 @@
                     <div class="card-header">{{ __('Galleries') }}</div>
                     <div class="card-body">
                         <div class="d-flex flex-wrap">
-                            @foreach($galleries as $gallery)
-                                <a href="{{ route('gallery.show', ['galleryId'=> $gallery['id']]) }}">
+                            @foreach($user->galleries as $gallery)
+                                <a href="{{ route('gallery.show', ['gallery'=> $gallery->id]) }}">
                                     <div class="d-flex flex-column">
                                         <div class="text-center">
-                                            <p class="card-text">{{ $gallery['title'] }}</p>
+                                            <p class="card-text">{{ $gallery->title }}</p>
                                         </div>
                                         <div class="d-flex justify-content-center align-items-center overflow-hidden mb-3 ml-3" style="width: 150px; height: 150px">
                                             <img src="{{ asset('storage/' . $gallery->galleryImages[0]->path ) }}" class="img-fluid" alt="gallery image">

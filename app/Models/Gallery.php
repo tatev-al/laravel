@@ -20,12 +20,12 @@ class Gallery extends Model
         'title',
     ];
 
-    public function user() : BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function galleryImages() : HasMany
+    public function galleryImages(): HasMany
     {
         return $this->hasMany(GalleryImage::class);
     }

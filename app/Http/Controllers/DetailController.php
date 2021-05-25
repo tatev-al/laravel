@@ -14,14 +14,14 @@ class DetailController extends Controller
 
     public function update(Request $request)
     {
-        $user = auth()->user();
-
         $request->validate([
             'phone' => 'required|string|max:191',
             'address' => 'required|string|max:191',
             'city' => 'required|string|max:191',
-            'country' => 'required|string|max:191'
+            'country' => 'required|string|max:191',
         ]);
+
+        $user = auth()->user();
 
         $user->detail()->updateOrCreate(
             [
@@ -35,8 +35,8 @@ class DetailController extends Controller
             ]
         );
 
-        $user->userProfessions()->sync($request->profession);
+        $user->professions()->sync($request->professions);
 
-        return back()->with('successContact', 'Contact information has been updated successfully!');
+        return back()->with('success', 'Contact information has been updated successfully!');
     }
 }

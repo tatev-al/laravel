@@ -5,10 +5,10 @@
 
     <div class="container">
         <div class="card p-4">
-            <form method="POST" action="{{ route('posts.update', ['postId'=> $post->id])}}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('posts.update', ['post'=> $post->id])}}" enctype="multipart/form-data">
                 @csrf
 
-                @method('POST')
+                @method('PUT')
                 <div class="form-group row">
                     <label for="title" class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
 
@@ -35,9 +35,9 @@
                     <label for="user_profession" class="col-md-4 col-form-label text-md-right">{{ __('Profession(s)') }}</label>
 
                     <div class="col-md-6">
-                        <select class="form-control" id="user_profession" name="profession[]" multiple="multiple">
-                            @foreach($postProfessions as $pr)
-                                <option value="{{ $pr['id'] }}" @if(in_array($pr->id, $post->postProfessions->pluck('id')->all())) selected @endif>{{ $pr['name'] }}</option>
+                        <select class="form-control" id="user_profession" name="professions[]" multiple="multiple">
+                            @foreach($professions as $pr)
+                                <option value="{{ $pr['id'] }}" @if(in_array($pr->id, $post->professions->pluck('id')->all())) selected @endif>{{ $pr['name'] }}</option>
                             @endforeach
                         </select>
                     </div>
