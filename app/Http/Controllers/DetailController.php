@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Auth;
 
 class DetailController extends Controller
 {
-    public function index()
+    public function __construct()
     {
-        return view('profile')->with('detail', Auth::user());
+        $this->middleware('auth');
     }
 
     public function update(Request $request)

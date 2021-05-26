@@ -29,11 +29,9 @@
                 <label for="user_profession" class="col-md-4 col-form-label text-md-right">{{ __('Profession(s)') }}</label>
 
                 <div class="col-md-6">
-                        @foreach($professions as $profession)
-                            @if(in_array($profession->id, $post->professions->pluck('id')->all()))
-                                <p class="mt-2">{{ $profession->name }}</p>
-                            @endif
-                        @endforeach
+                    @foreach($post->professions as $profession)
+                        <p class="mt-2">{{ $profession->name }}</p>
+                    @endforeach
                 </div>
             </div>
 

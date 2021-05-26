@@ -59,3 +59,6 @@ Route::prefix('gallery')->group(function()
     Route::delete('/destroy/{gallery}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
 });
 
+Route::prefix('admin')->group(function() {
+
+});

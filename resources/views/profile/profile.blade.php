@@ -168,7 +168,8 @@
                                             <p class="card-text">{{ $gallery->title }}</p>
                                         </div>
                                         <div class="d-flex justify-content-center align-items-center overflow-hidden mb-3 ml-3" style="width: 150px; height: 150px">
-                                            <img src="{{ asset('storage/' . $gallery->galleryImages[0]->path ) }}" class="img-fluid" alt="gallery image">
+                                            <img src="{{ !$gallery->galleryImages->isEmpty() ? asset('storage/' . $gallery->galleryImages[0]->path)
+                                                    : 'https://images.pexels.com/photos/776336/pexels-photo-776336.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940' }}" class="img-fluid" alt="gallery image">
                                         </div>
                                     </div>
                                 </a>

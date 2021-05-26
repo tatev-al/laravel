@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Gallery;
 use App\Models\GalleryImage;
-use App\Models\Profession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -17,9 +16,9 @@ class GalleryController extends Controller
         $this->middleware('auth');
     }
 
-    public function create(Request $request)
+    public function create()
     {
-        return view('createGallery');
+        return view('gallery.create');
     }
 
     public function store(Request $request)
@@ -53,7 +52,7 @@ class GalleryController extends Controller
 
     public function show(Gallery $gallery)
     {
-        return view('gallery')
+        return view('gallery.gallery')
             ->with('gallery', Gallery::with('galleryImages')->where('id', $gallery->id)->first());
     }
 
@@ -61,8 +60,8 @@ class GalleryController extends Controller
     {
         abort_if($gallery->user_id !== auth()->id(), 403, 'Unauthorized action.');
 
-        return view('editGallery')
-            ->with('gallery', Gallery::with('galleryImages')->where('id', $gallery->id)->first());
+        return view('gallery.edit')
+            ->with('gallery', $gallery->load('galleryImages'));
     }
 
     public function update(Request $request, Gallery $gallery)
@@ -103,7 +102,7 @@ class GalleryController extends Controller
         return back();
     }
 
-    public function destroy(Request $request, Gallery $gallery)
+    public function destroy(Gallery $gallery)
     {
         abort_if($gallery->user_id !== auth()->id(), 403, 'Unauthorized action.');
 

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Gallery;
-use App\Models\Post;
 use App\Models\Profession;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,7 +18,7 @@ class ProfileController extends Controller
     {
         $user = auth()->user()->load(['detail', 'professions', 'avatar', 'galleries']);
 
-        return view('profile')
+        return view('profile.profile')
             ->with('user', $user)
             ->with('professions', Profession::all());
     }
@@ -49,8 +47,7 @@ class ProfileController extends Controller
 
     public function show(User $user)
     {
-        return view('showProfile')
-            ->with('profile', $user->load(['detail', 'avatar', 'professions', 'galleries']))
-            ->with('professions', Profession::all());
+        return view('profile.show')
+            ->with('profile', $user->load(['detail', 'avatar', 'professions', 'galleries']));
     }
 }

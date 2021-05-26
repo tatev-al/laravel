@@ -19,14 +19,13 @@ class PostController extends Controller
     {
         $posts = Post::with('image')->where('user_id', auth()->id())->get();
 
-        return view('post')
-            ->with('posts', $posts)
-            ->with('professions', Profession::all());
+        return view('post.post')
+            ->with('posts', $posts);
     }
 
     public function create()
     {
-        return view('createPost')
+        return view('post.create')
             ->with('professions', Profession::all());
     }
 
@@ -64,16 +63,15 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return view('showPost')
-            ->with('professions', Profession::all())
-            ->with('post', $post->load('user'));
+        return view('post.show')
+            ->with('post', $post->load(['user', 'professions']));
     }
 
     public function edit(Post $post)
     {
         abort_if($post->user_id !== auth()->id(), 403, 'Unauthorized action.');
 
-        return view('editPost')
+        return view('post.edit')
             ->with('professions', Profession::all())
             ->with('post', $post);
     }
@@ -102,10 +100,7 @@ class PostController extends Controller
                 Storage::delete($post->image->path);
             }
 
-            PostImage::where('post_id', $post->id)->updateOrCreate(
-                [
-                    'post_id' => $post->id,
-                ],
+            $post->image()->update(
                 [
                     'original_name' => $request->file('postImage')->getClientOriginalName(),
                     'path' => $postImagePath,

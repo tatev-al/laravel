@@ -16,10 +16,6 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (true) {
-            abort(403);
-        }
-
         return $next($request);
     }
 }
